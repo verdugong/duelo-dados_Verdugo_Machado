@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.game-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.player {
+    text-align: center;
+}
+
+.dice-container {
+    width: 100px;
+    height: 100px;
+    perspective: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dice {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg);
+    transition: transform 1s ease-out;
+}
+
+.face {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: white;
+    border: 2px solid black;
+    font-size: 30px;
+    text-align: center;
+    line-height: 80px;
+    font-weight: bold;
+}
+
+.front  { transform: rotateY(  0deg) translateZ(40px); } /* 1 */
+.back   { transform: rotateY(180deg) translateZ(40px); } /* 6 */
+.top    { transform: rotateX( 90deg) translateZ(40px); } /* 5 */
+.bottom { transform: rotateX(-90deg) translateZ(40px); } /* 2 */
+.left   { transform: rotateY(-90deg) translateZ(40px); } /* 3 */
+.right  { transform: rotateY( 90deg) translateZ(40px); } /* 4 */
+
+button {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
