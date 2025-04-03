@@ -1,17 +1,17 @@
-/* Configuración general de la página */
+/* Ajustes generales */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     text-align: center;
     background-image: url('fondoDePantalla.png');
-    background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
-    background-position: center; /* Centra la imagen en la pantalla */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f4f4f4;
     color: #333;
     margin: 0;
     padding: 0;
 }
 
-/* Encabezado */
 h1 {
     font-size: 3rem;
     color: #4CAF50;
@@ -19,30 +19,29 @@ h1 {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para los nombres de los jugadores */
 h2 {
     font-size: 1.5rem;
-    color: #007bff;
+    color: #ffffff;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 h2:hover {
-    color: #0056b3; /* Color al pasar el mouse */
+    color: #0056b3;
 }
 
 h2:focus {
     outline: none;
-    color: #28a745; /* Color al hacer clic */
+    color: #28a745;
 }
 
 p {
     font-size: 1.25rem;
-    color: #555;
+    color: #ffffff;
 }
 
-/* Contenedor principal para los paneles de jugadores y botones */
-.game-container {
+/* Estructura principal */
+.contenedor-juego {
     display: flex;
     justify-content: space-between;
     gap: 40px;
@@ -53,8 +52,7 @@ p {
     margin-right: auto;
 }
 
-/* Panel izquierdo y derecho: Las tablas de puntuación e historial */
-.left-panel, .right-panel {
+.panel-izquierdo, .panel-derecho {
     width: 250px;
     display: flex;
     flex-direction: column;
@@ -65,31 +63,25 @@ p {
     padding: 20px;
 }
 
-/* Panel central con los dados y los botones */
-.center-panel {
+.panel-lateral {
+    width: 100%;
+}
+
+.panel-central {
     width: 500px;
     display: flex;
-    justify-content: space-between; /* Alinea los dados de manera horizontal */
+    justify-content: center;
     align-items: center;
-    flex-direction: row; /* Alinea los elementos en fila */
+    flex-direction: column;
 }
 
-/* Tablas de puntuación acumulada e historial de lanzamientos */
-.score-table {
-    background-color: #f8f9fa;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 8px;
-    border: 2px solid #dee2e6;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.score-table table {
+/* Tablas de puntaje */
+.tabla-puntaje table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.score-table th {
+.tabla-puntaje th {
     background-color: #e9ecef;
     font-size: 1.1rem;
     color: #007bff;
@@ -98,75 +90,40 @@ p {
     text-align: center;
 }
 
-.score-table td {
+.tabla-puntaje td {
     padding: 10px;
     text-align: center;
     font-size: 1rem;
     color: #555;
 }
 
-/* Efecto de hover para las celdas */
-.score-table td:hover{
+.tabla-puntaje td:hover {
     background-color: #f1f1f1;
     cursor: pointer;
 }
 
-/* Botones */
-button {
-    margin-top: 20px;
-    padding: 12px 24px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Panel de dados */
+.panel-dados {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
-button:hover {
-    background-color: #0056b3;
-}
-
-button:active {
-    background-color: #004085;
-}
-
-button#resetGame {
-    background-color: #dc3545;
-    margin-top: 20px;
-}
-
-button#resetGame:hover {
-    background-color: #c82333;
-}
-
-/* Panel de mensaje con el resultado */
-.score-panel {
-    margin-top: 400px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-size: 1.25rem;
-    color: #333;
+.jugador {
     text-align: center;
 }
 
-/* Estilo para los dados */
-.dice-container {
-    width: 100px;
+.contenedor-dado {
+    width: 110px;
     height: 100px;
-    perspective: 600px;
+    perspective: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 20px;
 }
 
-/* Estilo para los dados con rotación */
-.dice {
+/* Dado */
+.dado {
     width: 80px;
     height: 80px;
     position: relative;
@@ -174,32 +131,33 @@ button#resetGame:hover {
     transform: rotateX(0deg) rotateY(0deg);
     transition: transform 1s ease-out;
     display: flex;
-    justify-content: center; /* Centra el dado en su contenedor */
+    justify-content: center;
     align-items: center;
-    width: 100%; /* Asegura que el dado esté centrado */
+    width: 100%;
 }
 
-.face {
+.cara {
     position: absolute;
-    width: 80px;
-    height: 80px;
-    background: #ffffff;
-    border: 2px solid #007bff;
-    font-size: 30px;
-    text-align: center;
-    line-height: 80px;
+    width: 100%;
+    height: 100%;
+    background: white;
+    font-size: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-.front  { transform: rotateY(  0deg) translateZ(40px); }
-.back   { transform: rotateY(180deg) translateZ(40px); }
-.top    { transform: rotateX( 90deg) translateZ(40px); }
-.bottom { transform: rotateX(-90deg) translateZ(40px); }
-.left   { transform: rotateY(-90deg) translateZ(40px); }
-.right  { transform: rotateY( 90deg) translateZ(40px); }
+/* Caras del dado */
+.frente   { transform: rotateY(   0deg) translateZ(40px); } /* 1 */
+.atras    { transform: rotateY( 180deg) translateZ(40px); } /* 6 */
+.arriba   { transform: rotateX(  90deg) translateZ(40px); } /* 4 */
+.abajo    { transform: rotateX( -90deg) translateZ(40px); } /* 3 */
+.izquierda{ transform: rotateY( -90deg) translateZ(40px); } /* 2 */
+.derecha  { transform: rotateY(  90deg) translateZ(40px); } /* 5 */
 
-/* Efectos de sombra y estilo para el botón */
+/* Botones */
 button {
     background-color: #007bff;
     color: white;
@@ -208,8 +166,10 @@ button {
     font-size: 1.2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 100px;
     margin-right: 20px;
     margin-left: 20px;
+    cursor: pointer;
 }
 
 button:hover {
@@ -221,3 +181,86 @@ button:active {
     background-color: #004085;
     transform: scale(1);
 }
+
+/* Reiniciar */
+button#reiniciarJuego {
+    background-color: #dc3545;
+}
+
+button#reiniciarJuego:hover {
+    background-color: #c82333;
+}
+
+/* Panel de ronda */
+.panel-ronda {
+    margin-top: 400px;
+    background-color: #007bff;
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid #dee2e6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1.25rem;
+    color: #333;
+    text-align: center;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.contenido-modal {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    margin: auto;
+}
+
+#mensajeGanador {
+    font-size: 2rem;
+    color: #333;
+}
+
+#nombreJugador1 {
+    font-size: 1.5rem;
+    color: #007bff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#nombreJugador1:hover {
+    color: #0056b3;
+}
+
+#nombreJugador2 {
+    font-size: 1.5rem;
+    color: #dc3545;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#nombreJugador2:hover {
+    color: #c82333;
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+
