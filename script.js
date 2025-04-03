@@ -1,56 +1,93 @@
-let scores = [0, 0];
-let currentPlayer = 0;
-let round = 1;
-let rolls = [0, 0];
+let puntajes = [0, 0];
+let jugadorActual = 0;
+let ronda = 1;
+let lanzamientos = [0, 0];
 let cont = 0;
 
-const diceRotations = {
-    1: "rotateY(0deg)",        // ⚀ (Frontal)
-    2: "rotateY(90deg)",       // ⚁ (Derecha)
-    3: "rotateX(90deg)",       // ⚂ (Arriba)
-    4: "rotateX(-90deg)",      // ⚃ (Abajo)
-    5: "rotateY(-90deg)",      // ⚄ (Izquierda)
-    6: "rotateY(180deg)"       // ⚅ (Trasera)
+// Rotaciones para cada cara del dado
+const rotacionesDado = {
+    1: "rotateY(0deg)",    // ⚀ (Frente)
+    2: "rotateY(90deg)",   // ⚁ (Derecha)
+    3: "rotateX(90deg)",   // ⚂ (Arriba)
+    4: "rotateX(-90deg)",  // ⚃ (Abajo)
+    5: "rotateY(-90deg)",  // ⚄ (Izquierda)
+    6: "rotateY(180deg)"   // ⚅ (Atrás)
 };
 
+// Referencias a celdas del HTML
+let puntaje1Ronda1 = document.getElementById("puntaje1-ronda1");
+let puntaje1Ronda2 = document.getElementById("puntaje1-ronda2");
+let puntaje1Ronda3 = document.getElementById("puntaje1-ronda3");
+let puntaje1Total  = document.getElementById("puntaje1-total");
 
+let puntaje2Ronda1 = document.getElementById("puntaje2-ronda1");
+let puntaje2Ronda2 = document.getElementById("puntaje2-ronda2");
+let puntaje2Ronda3 = document.getElementById("puntaje2-ronda3");
+let puntaje2Total  = document.getElementById("puntaje2-total");
 
+document.getElementById("lanzarDado").addEventListener("click", function() {
+    // Seleccionar el dado según el jugador actual
+    let dado = document.getElementById(`dado${jugadorActual + 1}`);
 
-document.getElementById("rollDice").addEventListener("click", function() {
-    let dice = document.getElementById(`dice${currentPlayer + 1}`);
+    // Generar un número aleatorio entre 1 y 6
+    let tirada = Math.floor(Math.random() * 6) + 1;
 
-    // Generar número aleatorio entre 1 y 6
-    let roll = Math.floor(Math.random() * 6) + 1;
-
-    // Animación de giro aleatorio antes de mostrar el número correcto
+    // Rotación aleatoria inicial
     let randomX = Math.floor(Math.random() * 720) + 360;
     let randomY = Math.floor(Math.random() * 720) + 360;
-    dice.style.transform = `rotateX(${randomX}deg) rotateY(${randomY}deg)`;
+    dado.style.transform = `rotateX(${randomX}deg) rotateY(${randomY}deg)`;
 
+    // Aplicar la rotación final (cara correspondiente)
     setTimeout(() => {
-        dice.style.transform = diceRotations[roll];
+        dado.style.transform = rotacionesDado[tirada];
 
-        // Actualizar puntaje
-        scores[currentPlayer] += roll;
-        document.getElementById(`score${currentPlayer + 1}`).textContent = scores[currentPlayer];
+        // Sumar la tirada al puntaje del jugador
+        puntajes[jugadorActual] += tirada;
+        document.getElementById(`puntaje${jugadorActual + 1}`).textContent = puntajes[jugadorActual];
 
-        rolls[currentPlayer]++;
+        // Guardar la tirada en la tabla de resultados
+        if (ronda === 1) {
+            if (jugadorActual === 0) {
+                puntaje1Ronda1.textContent = tirada;
+            } else {
+                puntaje2Ronda1.textContent = tirada;
+            }
+        } else if (ronda === 2) {
+            if (jugadorActual === 0) {
+                puntaje1Ronda2.textContent = tirada;
+            } else {
+                puntaje2Ronda2.textContent = tirada;
+            }
+        } else if (ronda === 3) {
+            if (jugadorActual === 0) {
+                puntaje1Ronda3.textContent = tirada;
+                puntaje1Total.textContent  = puntajes[0];
+            } else {
+                puntaje2Ronda3.textContent = tirada;
+                puntaje2Total.textContent  = puntajes[1];
+            }
+        }
 
-        // Cambiar de jugador después de cada lanzamiento
-        
-        if (rolls[currentPlayer] === 1) {
-            currentPlayer = (currentPlayer + 1) % 2;
-            rolls[currentPlayer] = 0;
+        // Control de turnos
+        lanzamientos[jugadorActual]++;
+        if (lanzamientos[jugadorActual] === 1) {
+            // Cambiar de jugador
+            jugadorActual = (jugadorActual + 1) % 2;
+            lanzamientos[jugadorActual] = 0;
             cont++;
 
+            // Si ambos jugadores han lanzado, avanza la ronda
             if (cont === 2) {
-                round++;
-                document.getElementById("round").textContent = round;
+                ronda++;
+                document.getElementById("ronda").textContent = ronda;
                 cont = 0;
             }
-            document.getElementById("currentPlayer").textContent = `Jugador ${currentPlayer + 1}`;
 
-            if (round > 3) {
+            // Mostrar en pantalla qué jugador va
+            document.getElementById("jugadorActual").textContent = `Jugador ${jugadorActual + 1}`;
+
+            // Si ya pasamos la ronda 3, se determina un ganador
+            if (ronda > 3) {
                 determinarGanador();
                 return;
             }
@@ -58,28 +95,67 @@ document.getElementById("rollDice").addEventListener("click", function() {
     }, 1000);
 });
 
-document.getElementById("resetGame").addEventListener("click", function() {
-    scores = [0, 0];
-    currentPlayer = 0;
-    round = 1;
-    rolls = [0, 0];
+document.getElementById("reiniciarJuego").addEventListener("click", function() {
+    // Volver todo a cero
+    puntajes = [0, 0];
+    jugadorActual = 0;
+    ronda = 1;
+    lanzamientos = [0, 0];
+    cont = 0;
 
-    document.getElementById("score1").textContent = "0";
-    document.getElementById("score2").textContent = "0";
-    document.getElementById("round").textContent = "1";
-    document.getElementById("currentPlayer").textContent = "Jugador 1";
-    document.getElementById("message").textContent = "";
+    // Resetear texto en pantalla
+    document.getElementById("puntaje1").textContent = "0";
+    document.getElementById("puntaje2").textContent = "0";
+    document.getElementById("ronda").textContent = "1";
+    document.getElementById("jugadorActual").textContent = "Jugador 1";
 
-    document.getElementById("dice1").style.transform = "rotateX(0deg) rotateY(0deg)";
-    document.getElementById("dice2").style.transform = "rotateX(0deg) rotateY(0deg)";
+    puntaje1Ronda1.textContent = "0";
+    puntaje1Ronda2.textContent = "0";
+    puntaje1Ronda3.textContent = "0";
+    puntaje1Total.textContent  = "0";
 
-    document.getElementById("rollDice").disabled = false;
+    puntaje2Ronda1.textContent = "0";
+    puntaje2Ronda2.textContent = "0";
+    puntaje2Ronda3.textContent = "0";
+    puntaje2Total.textContent  = "0";
+
+    document.getElementById("dado1").style.transform = "rotateX(0deg) rotateY(0deg)";
+    document.getElementById("dado2").style.transform = "rotateX(0deg) rotateY(0deg)";
+
+    document.getElementById("lanzarDado").disabled = false;
+
+    let mensajeElemento = document.getElementById("message");
+    if(mensajeElemento) {
+        mensajeElemento.textContent = "";
+    }
 });
 
+// Determinar el ganador
 function determinarGanador() {
-    let message = scores[0] > scores[1] ? "🎉 ¡Jugador 1 gana!" :
-                  scores[0] < scores[1] ? "🎉 ¡Jugador 2 gana!" :
-                  "🤝 ¡Empate!";
-    document.getElementById("message").textContent = message;
-    document.getElementById("rollDice").disabled = true;
+    let mensaje = 
+        puntajes[0] > puntajes[1] ? "🎉 ¡Jugador 1 gana!" :
+        puntajes[0] < puntajes[1] ? "🎉 ¡Jugador 2 gana!" :
+                                    "🤝 ¡Empate!";
+
+    document.getElementById("mensajeGanador").textContent = mensaje;
+    document.getElementById("modalGanador").style.display = "flex";
+
+    // Deshabilita el botón para que no se siga jugando
+    document.getElementById("lanzarDado").disabled = true;
 }
+
+// Cerrar el modal con la tecla "Escape"
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        document.getElementById("modalGanador").style.display = "none";
+    }
+});
+
+// Lanzar con la barra espaciadora
+document.addEventListener("keydown", function(event) {
+    if (event.key === " " || event.key === "Spacebar") {
+        if (ronda <= 3) {
+            document.getElementById("lanzarDado").click();
+        }
+    }
+});

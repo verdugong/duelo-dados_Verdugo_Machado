@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Dados</title>
     <link rel="stylesheet" href="styles.css">
@@ -10,44 +9,85 @@
     <h1>🎲 Duelo de Dados 🎲 </h1>
     <p>¡Lanza los dados y suma puntos! El que tenga más puntos en 3 rondas, gana.</p>
 
-    <div class="game-container">
-        <div class="player">
-            <h2>Jugador 1</h2>
-            <div class="dice-container">
-                <div class="dice" id="dice1">
-                    <div class="face front">⚀</div>
-                    <div class="face back">⚅</div>
-                    <div class="face top">⚃</div>
-                    <div class="face bottom">⚂</div>
-                    <div class="face left">⚁</div>
-                    <div class="face right">⚄</div>
+    <div class="contenedor-juego">
+        <div class="panel-izquierdo">
+            <div class="panel-lateral">
+                <h2 id="nombreJugador1" onclick="editarNombre(1)">Jugador 1</h2>
+                <div class="tabla-puntaje">
+                    <h3>Puntuación Acumulada</h3>
+                    <table>
+                        <tr><td>Turno 1</td><td id="puntaje1-ronda1">0</td></tr>
+                        <tr><td>Turno 2</td><td id="puntaje1-ronda2">0</td></tr>
+                        <tr><td>Turno 3</td><td id="puntaje1-ronda3">0</td></tr>
+                        <tr><td>Total</td><td id="puntaje1-total">0</td></tr>
+                    </table>
                 </div>
             </div>
-            <p>Puntaje: <span id="score1">0</span></p>
         </div>
 
-        <div class="player">
-            <h2>Jugador 2</h2>
-            <div class="dice-container">
-                <div class="dice" id="dice2">
-                    <div class="face front">⚀</div>
-                    <div class="face back">⚅</div>
-                    <div class="face top">⚃</div>
-                    <div class="face bottom">⚂</div>
-                    <div class="face left">⚁</div>
-                    <div class="face right">⚄</div>
+        <div class="panel-central">
+            <div class="panel-dados">
+                <div class="jugador">
+                    <h2>Jugador 1</h2>
+                    <div class="contenedor-dado">
+                        <div class="dado" id="dado1">
+                            <div class="cara frente">⚀</div>
+                            <div class="cara atras">⚅</div>
+                            <div class="cara arriba">⚃</div>
+                            <div class="cara abajo">⚂</div>
+                            <div class="cara izquierda">⚁</div>
+                            <div class="cara derecha">⚄</div>
+                        </div>
+                    </div>
+                    <p>Puntaje: <span id="puntaje1">0</span></p>
+                </div>
+
+                <div class="jugador">
+                    <h2>Jugador 2</h2>
+                    <div class="contenedor-dado">
+                        <div class="dado" id="dado2">
+                            <div class="cara frente">⚀</div>
+                            <div class="cara atras">⚅</div>
+                            <div class="cara arriba">⚃</div>
+                            <div class="cara abajo">⚂</div>
+                            <div class="cara izquierda">⚁</div>
+                            <div class="cara derecha">⚄</div>
+                        </div>
+                    </div>
+                    <p>Puntaje: <span id="puntaje2">0</span></p>
                 </div>
             </div>
-            <p>Puntaje: <span id="score2">0</span></p>
+
+            <div class="contenedor-botones">
+                <button id="lanzarDado">Lanzar Dado</button>
+                <button id="reiniciarJuego">Reiniciar Juego</button>
+            </div>
+        </div>
+
+        <div class="panel-derecho">
+            <h2 id="nombreJugador2" onclick="editarNombre(2)">Jugador 2</h2>
+            <div class="tabla-puntaje">
+                <h3>Puntuación Acumulada</h3>
+                <table>
+                    <tr><td>Turno 1</td><td id="puntaje2-ronda1">0</td></tr>
+                    <tr><td>Turno 2</td><td id="puntaje2-ronda2">0</td></tr>
+                    <tr><td>Turno 3</td><td id="puntaje2-ronda3">0</td></tr>
+                    <tr><td>Total</td><td id="puntaje2-total">0</td></tr>
+                </table>
+            </div>
         </div>
     </div>
 
-    <p>Ronda: <span id="round">1</span> | Turno de: <span id="currentPlayer">Jugador 1</span></p>
-    
-    <button id="rollDice">Lanzar Dado</button>
-    <button id="resetGame">Reiniciar Juego</button>
+    <div class="panel-ronda">
+        <p>Partida: <span id="ronda">1</span> | Turno de: <span id="jugadorActual">Jugador 1</span></p>
+    </div>
 
-    <p id="message"></p>
+    <div id="modalGanador" class="modal">
+        <div class="contenido-modal">
+            <span class="cerrar-modal">&times;</span>
+            <h2 id="mensajeGanador"></h2>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
